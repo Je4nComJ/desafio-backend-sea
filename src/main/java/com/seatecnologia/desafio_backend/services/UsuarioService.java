@@ -4,6 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,7 +21,7 @@ import com.seatecnologia.desafio_backend.repositories.UsuarioRepository;
 import com.seatecnologia.desafio_backend.services.exceptions.EntityNotFoundException;
 
 @Service
-public class UsuarioService {
+public class UsuarioService implements UserDetailsService{
 	
 	@Autowired
 	private UsuarioRepository repository;
@@ -81,5 +84,15 @@ public class UsuarioService {
 			Role role = roleRepository.getReferenceById(roleDTO.getId());
 			entity.getRoles().add(role);
 		}
+	}
+
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		Usuario usuario = repository.findByUsername(username);
+		
+		if(usuario == null) {
+			throw new UsernameNotFoundException("Usuário não encontrado!");
+		}
+		return usuario;
 	}
 }

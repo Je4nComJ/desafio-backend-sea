@@ -7,5 +7,6 @@ import com.seatecnologia.desafio_backend.entities.Usuario;
 
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Long>{
-
+	
+	Usuario findByUsername(String username);
 }
