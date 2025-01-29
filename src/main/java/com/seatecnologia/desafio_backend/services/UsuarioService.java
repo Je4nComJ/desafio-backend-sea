@@ -4,11 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.seatecnologia.desafio_backend.dtos.RoleDTO;
 import com.seatecnologia.desafio_backend.dtos.UsuarioDTO;
+import com.seatecnologia.desafio_backend.dtos.UsuarioInsertDTO;
 import com.seatecnologia.desafio_backend.entities.Role;
 import com.seatecnologia.desafio_backend.entities.Usuario;
 import com.seatecnologia.desafio_backend.repositories.RoleRepository;
@@ -24,6 +26,9 @@ public class UsuarioService {
 	@Autowired
 	private RoleRepository roleRepository;
 	
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
+	
 	
 	@Transactional(readOnly = true)
 	public Page<UsuarioDTO> findAllPaged(Pageable pageable){
@@ -38,9 +43,10 @@ public class UsuarioService {
 	}
 	
 	@Transactional
-	public UsuarioDTO insert(UsuarioDTO dto) {
+	public UsuarioDTO insert(UsuarioInsertDTO dto) {
 		Usuario entity = new Usuario();
 		copyDtoToEntity(dto, entity);
+		entity.setPassword(passwordEncoder.encode(dto.getPassword()));
 		entity = repository.save(entity);
 		return new UsuarioDTO(entity);	
 	}
