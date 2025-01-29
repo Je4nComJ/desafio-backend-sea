@@ -25,5 +25,6 @@ public class UsuarioDTO {
 	public UsuarioDTO(Usuario entity) {
 		id = entity.getId();
 		username = entity.getUsername();
+		entity.getRoles().forEach(role -> this.roles.add(new RoleDTO(role)));
 	}
 }
