@@ -17,6 +17,12 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class WebSecurityConfig {
 	
+		private static final String[] PUBLIC = {"/auth/login", "/h2-console/**"};
+		
+		private static final String[] ADMIN = {"/users/**"};
+		
+		private static final String[] OPERATOR_OR_ADMIN = {"/users/**"};
+	
 		@Autowired
 		private SecurityFilter securityFilter;
 	
@@ -32,12 +38,12 @@ public class WebSecurityConfig {
 				   .csrf(csrf -> csrf.disable())
 				   .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				   .authorizeHttpRequests(authorize -> authorize
-						   .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
-						   .requestMatchers(HttpMethod.POST, "/users").hasRole("ADMIN")
-						   .requestMatchers(HttpMethod.PUT, "/users").hasRole("ADMIN")
-						   .requestMatchers(HttpMethod.DELETE, "/users").hasRole("ADMIN")
-						   .anyRequest().authenticated()
+						   .requestMatchers(PUBLIC).permitAll()
+						   .requestMatchers(ADMIN).hasRole("ADMIN")
+						   .requestMatchers(HttpMethod.GET,OPERATOR_OR_ADMIN ).hasAnyRole("OPERATOR","ADMIN")
+						  .anyRequest().authenticated()
 						   )
+				   .headers(headers -> headers.frameOptions().disable())
 				   .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
 				   .build();
 	    }
