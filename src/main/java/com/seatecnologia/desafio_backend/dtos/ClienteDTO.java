@@ -1,0 +1,44 @@
+package com.seatecnologia.desafio_backend.dtos;
+
+import java.util.HashSet;
+import java.util.Set;
+
+import com.seatecnologia.desafio_backend.entities.Cliente;
+import com.seatecnologia.desafio_backend.entities.Email;
+import com.seatecnologia.desafio_backend.entities.Endereco;
+import com.seatecnologia.desafio_backend.entities.Telefone;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+@AllArgsConstructor
+public class ClienteDTO {
+	
+	private Long id;
+	private String nome;
+	private String cpf;
+	private Endereco endereco;
+	private Set<TelefoneDTO> telefones = new HashSet<>();
+	private Set<EmailDTO> emails = new HashSet<>();
+	
+	public ClienteDTO() {}
+	
+	public ClienteDTO(Cliente entity) {
+		id = entity.getId();
+		nome = entity.getNome();
+		cpf = entity.getCpf();
+		endereco = entity.getEndereco();
+	}
+	
+	public ClienteDTO(Cliente entity, Set<Telefone> telefones, Set<Email> emails) {
+		this(entity);
+		
+		telefones.forEach(telefone -> this.telefones.add(new TelefoneDTO(telefone)));
+		
+		emails.forEach(email -> this.emails.add(new EmailDTO(email)));
+	}
+	
+}
