@@ -1,7 +1,7 @@
 package com.seatecnologia.desafio_backend.dtos;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -14,7 +14,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class ClienteInsertDTO {
+public class ClienteInsertDTO extends ClienteDTO{
 	
 	@NotBlank
 	@Size(min = 3, max = 100)
@@ -24,17 +24,17 @@ public class ClienteInsertDTO {
 	@Pattern(regexp = "(\\d{3}.?\\d{3}.?\\d{3}-?\\d{2})", message = "O CPF deve conter 11 dígitos numéricos")
 	private String cpf;
 	
+	private String complemento;
+	
 	@NotBlank
 	@Pattern(regexp = "\\d{5}-?\\d{3}", message = "O CEP deve conter 8 dígitos numéricos")
 	private String cep;
 	
-	private String complemento;
-	
 	@NotEmpty(message = "O Cliente deve ter pelo menos um telefone")
-	private Set<TelefoneDTO> telefones = new HashSet<>();
+	private List<TelefoneDTO> telefones = new ArrayList<>();
 	
 	@NotEmpty(message = "O Cliente deve ter pelo menos um email")
-	private Set<EmailDTO> emails = new HashSet<>();
+	private List<EmailDTO> emails = new ArrayList<>();
 	
 	public ClienteInsertDTO() {}
 }

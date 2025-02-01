@@ -40,4 +40,10 @@ public class Telefone {
 	@ManyToOne
 	@JoinColumn(name = "cliente_id", nullable = false)
 	private Cliente cliente;
+	
+	 public Telefone(TipoTelefone tipoTelefone, String numero, Cliente cliente) {
+	        this.tipoTelefone = tipoTelefone;
+	        this.numero = numero;
+	        this.cliente = cliente;
+	    }
 }

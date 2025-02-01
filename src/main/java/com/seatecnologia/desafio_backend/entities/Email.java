@@ -37,4 +37,9 @@ public class Email {
 	@ManyToOne
     @JoinColumn(name = "cliente_id", nullable = false)
 	private Cliente cliente;
+	
+	public Email(String enderecoEmail, Cliente cliente) {
+		this.enderecoEmail = enderecoEmail;
+		this.cliente = cliente;
+	}
 }

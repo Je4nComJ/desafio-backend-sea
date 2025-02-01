@@ -1,6 +1,7 @@
 package com.seatecnologia.desafio_backend.dtos;
 
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import com.seatecnologia.desafio_backend.entities.Cliente;
@@ -21,8 +22,8 @@ public class ClienteDTO {
 	private String nome;
 	private String cpf;
 	private Endereco endereco;
-	private Set<TelefoneDTO> telefones = new HashSet<>();
-	private Set<EmailDTO> emails = new HashSet<>();
+	private List<TelefoneDTO> telefones = new ArrayList<>();
+	private List<EmailDTO> emails = new ArrayList<>();
 	
 	public ClienteDTO() {}
 	

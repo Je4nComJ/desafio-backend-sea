@@ -19,9 +19,9 @@ public class WebSecurityConfig {
 	
 		private static final String[] PUBLIC = {"/auth/login", "/h2-console/**"};
 		
-		private static final String[] ADMIN = {"/users/**"};
+		private static final String[] ADMIN = {"/users/**", "/clientes/**"};
 		
-		private static final String[] OPERATOR_OR_ADMIN = {"/users/**"};
+		private static final String[] OPERATOR_OR_ADMIN = {"/users/**", "/clientes/**"};
 	
 		@Autowired
 		private SecurityFilter securityFilter;
