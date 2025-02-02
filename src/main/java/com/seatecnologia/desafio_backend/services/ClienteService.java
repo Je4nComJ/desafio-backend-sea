@@ -1,10 +1,14 @@
 package com.seatecnologia.desafio_backend.services;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.seatecnologia.desafio_backend.dtos.ClienteDTO;
 import com.seatecnologia.desafio_backend.dtos.ClienteInsertDTO;
@@ -15,8 +19,9 @@ import com.seatecnologia.desafio_backend.entities.Email;
 import com.seatecnologia.desafio_backend.entities.Endereco;
 import com.seatecnologia.desafio_backend.entities.Telefone;
 import com.seatecnologia.desafio_backend.repositories.ClienteRepository;
+import com.seatecnologia.desafio_backend.services.exceptions.EntityNotFoundException;
 
-import jakarta.transaction.Transactional;
+
 
 @Service
 public class ClienteService {
@@ -40,6 +45,28 @@ public class ClienteService {
 	    cliente = repository.save(cliente);
 	    
 	    return new ClienteDTO(cliente);
+	}
+	
+	@Transactional(readOnly = true)
+	public Page<ClienteDTO> findAllPaged(Pageable pageable) {
+		Page<Cliente> list = repository.findAll(pageable);	
+		return list.map(x -> new ClienteDTO(x));
+	}
+	
+	@Transactional(readOnly = true)
+	public ClienteDTO findById(Long id) {
+		Cliente cliente = repository.findById(id)
+				.orElseThrow(() -> new EntityNotFoundException("Cliente não encontrado com o ID:" + id));
+		
+		return new ClienteDTO(cliente);
+	}
+	
+	@Transactional(readOnly = true)
+	public ClienteDTO findByCpf(String cpf) {
+		Cliente cliente = repository.findByCpf(cpf)
+				.orElseThrow(() -> new EntityNotFoundException("Cliente não encontrado com o CPF:" + cpf));
+		
+		return new ClienteDTO(cliente);
 	}
 	
 	private void copyDtoToEntity(ClienteInsertDTO dto, Cliente entity) {

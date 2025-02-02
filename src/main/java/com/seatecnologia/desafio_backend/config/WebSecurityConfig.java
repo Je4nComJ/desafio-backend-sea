@@ -39,8 +39,8 @@ public class WebSecurityConfig {
 				   .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				   .authorizeHttpRequests(authorize -> authorize
 						   .requestMatchers(PUBLIC).permitAll()
-						   .requestMatchers(ADMIN).hasRole("ADMIN")
 						   .requestMatchers(HttpMethod.GET,OPERATOR_OR_ADMIN ).hasAnyRole("OPERATOR","ADMIN")
+						   .requestMatchers(ADMIN).hasRole("ADMIN")
 						  .anyRequest().authenticated()
 						   )
 				   .headers(headers -> headers.frameOptions().disable())
