@@ -1,10 +1,10 @@
 package com.seatecnologia.desafio_backend.services;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -20,8 +20,6 @@ import com.seatecnologia.desafio_backend.entities.Endereco;
 import com.seatecnologia.desafio_backend.entities.Telefone;
 import com.seatecnologia.desafio_backend.repositories.ClienteRepository;
 import com.seatecnologia.desafio_backend.services.exceptions.EntityNotFoundException;
-
-
 
 @Service
 public class ClienteService {
@@ -84,6 +82,18 @@ public class ClienteService {
 	    cliente = repository.save(cliente);
 	    
 	    return new ClienteDTO(cliente);   
+	}
+	
+	@Transactional
+	public void delete(Long id) {
+		try {
+			repository.findById(id).orElseThrow(
+					() -> new EntityNotFoundException("Cliente não encontrado com o ID:" + id));	
+			repository.deleteById(id);
+			}
+			catch(DataIntegrityViolationException e) {
+				throw new DataIntegrityViolationException("Não foi possível deletar, entidade em conflito!");
+			}
 	}
 	
 	private void copyDtoToEntity(ClienteInsertDTO dto, Cliente entity) {
