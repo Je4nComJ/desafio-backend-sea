@@ -69,6 +69,23 @@ public class ClienteService {
 		return new ClienteDTO(cliente);
 	}
 	
+	@Transactional
+	public ClienteDTO update(Long id ,ClienteInsertDTO dto) {
+		
+		Cliente cliente = repository.findById(id)
+				.orElseThrow(() -> new EntityNotFoundException("Cliente não encontrado com o ID:" + id));
+		
+		Endereco endereco = cepService.buscarEndereco(dto.getCep());
+	    endereco.setComplemento(dto.getComplemento()); 
+	    cliente.setEndereco(endereco);
+	    
+	    copyDtoToEntity(dto, cliente);
+	    
+	    cliente = repository.save(cliente);
+	    
+	    return new ClienteDTO(cliente);   
+	}
+	
 	private void copyDtoToEntity(ClienteInsertDTO dto, Cliente entity) {
 		entity.setNome(dto.getNome());
 		entity.setCpf(dto.getCpf());
