@@ -1,5 +1,6 @@
 package com.seatecnologia.desafio_backend.dtos;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.seatecnologia.desafio_backend.entities.Telefone;
 import com.seatecnologia.desafio_backend.entities.TipoTelefone;
 
@@ -18,6 +19,7 @@ public class TelefoneDTO {
 	private TipoTelefone tipoTelefone;
 	
 	@NotBlank(message = "O número de telefone não pose estar em branco")
+	@JsonProperty("numero")
 	private String numero;
 	
 	public TelefoneDTO() {}
