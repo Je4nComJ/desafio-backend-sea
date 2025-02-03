@@ -42,7 +42,7 @@ public class ClienteService {
 
 	    cliente = repository.save(cliente);
 	    
-	    return new ClienteDTO(cliente);
+	    return new ClienteDTO(cliente, cliente.getTelefones(), cliente.getEmails());
 	}
 	
 	@Transactional(readOnly = true)
@@ -56,7 +56,7 @@ public class ClienteService {
 		Cliente cliente = repository.findById(id)
 				.orElseThrow(() -> new EntityNotFoundException("Cliente não encontrado com o ID:" + id));
 		
-		return new ClienteDTO(cliente);
+		return new ClienteDTO(cliente, cliente.getTelefones(), cliente.getEmails());
 	}
 	
 	@Transactional(readOnly = true)
@@ -64,7 +64,7 @@ public class ClienteService {
 		Cliente cliente = repository.findByCpf(cpf)
 				.orElseThrow(() -> new EntityNotFoundException("Cliente não encontrado com o CPF:" + cpf));
 		
-		return new ClienteDTO(cliente);
+		return new ClienteDTO(cliente, cliente.getTelefones(), cliente.getEmails());
 	}
 	
 	@Transactional
@@ -81,7 +81,7 @@ public class ClienteService {
 	    
 	    cliente = repository.save(cliente);
 	    
-	    return new ClienteDTO(cliente);   
+	    return new ClienteDTO(cliente, cliente.getTelefones(), cliente.getEmails());   
 	}
 	
 	@Transactional

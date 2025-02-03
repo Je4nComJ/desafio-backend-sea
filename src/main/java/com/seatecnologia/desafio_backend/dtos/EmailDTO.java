@@ -1,5 +1,7 @@
 package com.seatecnologia.desafio_backend.dtos;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -15,6 +17,7 @@ public class EmailDTO {
 	
 	@NotBlank
 	@Email(message = "O email deve estar em formato válido")
+	@JsonProperty("enderecoEmail")
 	private String enderecoEmail;
 	
 	public EmailDTO() {}

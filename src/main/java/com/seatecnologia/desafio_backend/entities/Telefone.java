@@ -1,5 +1,7 @@
 package com.seatecnologia.desafio_backend.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -39,6 +41,7 @@ public class Telefone {
 	
 	@ManyToOne
 	@JoinColumn(name = "cliente_id", nullable = false)
+	@JsonBackReference
 	private Cliente cliente;
 	
 	 public Telefone(TipoTelefone tipoTelefone, String numero, Cliente cliente) {

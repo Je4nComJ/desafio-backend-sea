@@ -3,6 +3,8 @@ package com.seatecnologia.desafio_backend.entities;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
@@ -42,8 +44,10 @@ public class Cliente {
 	private Endereco endereco;
 	
 	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.EAGER)
+	@JsonManagedReference
 	private Set<Telefone> telefones = new HashSet<>();
 	
 	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.EAGER)
+	@JsonManagedReference
 	private Set<Email> emails = new HashSet<>();
 }
