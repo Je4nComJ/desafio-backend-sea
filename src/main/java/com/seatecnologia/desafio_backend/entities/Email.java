@@ -1,5 +1,7 @@
 package com.seatecnologia.desafio_backend.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -36,6 +38,7 @@ public class Email {
 	
 	@ManyToOne
     @JoinColumn(name = "cliente_id", nullable = false)
+	@JsonBackReference
 	private Cliente cliente;
 	
 	public Email(String enderecoEmail, Cliente cliente) {
